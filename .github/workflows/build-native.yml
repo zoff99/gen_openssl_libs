@@ -60,21 +60,38 @@ jobs:
         env:
           OCI_EXE: docker
 
-#      - name: Upload native libraries
-#        uses: actions/upload-artifact@v5
-#        with:
-#          name: native-libs-${{ matrix.target }}
-#          path: resources/native/
+      - name: rename directory
+        run: |
+         cd ./custom_docker/
+         ls -1
+         echo ${{ matrix.target }}
+         zip -r "../openssl-libs-and-includes-${{ matrix.target }}.zip" ${{ matrix.target }}
 
-#      - name: Upload to nightly release
-#        uses: ncipollo/release-action@v1
-#        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-#        with:
-#          allowUpdates: true
-#          tag: nightly
-#          omitBodyDuringUpdate: true
-#          omitNameDuringUpdate: true
-#          prerelease: true
-#          replacesArtifacts: true
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#          artifacts: "${{ matrix.target }}__libsqlitejdbc.so"
+      - name: Upload native libraries
+        uses: actions/upload-artifact@v5
+        with:
+          name: openssl-libs-and-includes-${{ matrix.target }}
+          path: custom_docker/${{ matrix.target }}
+
+      - name: Upload to nightly release
+        uses: ncipollo/release-action@v1
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+        with:
+          allowUpdates: true
+          tag: nightly
+          omitBodyDuringUpdate: true
+          omitNameDuringUpdate: true
+          prerelease: true
+          replacesArtifacts: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "openssl-libs-and-includes-${{ matrix.target }}.zip"
+
+      - name: Upload to versioned release
+        if: contains(github.ref, 'refs/tags/v')
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: "openssl-libs-and-includes-${{ matrix.target }}.zip"
+
