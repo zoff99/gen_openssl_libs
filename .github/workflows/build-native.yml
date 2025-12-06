@@ -60,7 +60,7 @@ jobs:
         env:
           OCI_EXE: docker
 
-      - name: rename directory
+      - name: rename directory and create artifact zip file
         run: |
          cd ./custom_docker/
          ls -1
