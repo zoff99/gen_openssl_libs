@@ -30,10 +30,10 @@ windows-x64:
 
 ## ------ macOS x86_64
 mac64:
-	./custom_docker/macos64/do.sh build-container
-	./custom_docker/macos64/do.sh compile Mac x86_64
+	./custom_docker/mac64/do.sh build-container
+	./custom_docker/mac64/do.sh compile Mac x86_64
 
 ## ------ macOS arm64
 mac-arm64:
-	./custom_docker/macos-arm64/do.sh build-container
-	./custom_docker/macos-arm64/do.sh compile Mac aarch64
+	./custom_docker/mac-arm64/do.sh build-container
+	./custom_docker/mac-arm64/do.sh compile Mac aarch64
