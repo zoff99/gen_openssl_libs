@@ -20,8 +20,8 @@ linux64:
 
 ## ------ Linux arm64
 linux-arm64:
-	./custom_docker/linux64-arm64/do.sh build-container
-	./custom_docker/linux64-arm64/do.sh compile Linux aarch64
+	./custom_docker/linux-arm64/do.sh build-container
+	./custom_docker/linux-arm64/do.sh compile Linux aarch64
 
 ## ------ Windows x86_64
 windows-x64:

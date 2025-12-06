@@ -65,6 +65,7 @@ jobs:
          cd ./custom_docker/
          ls -1
          echo ${{ matrix.target }}
+         rm -Rf ${{ matrix.target }}/openssl.tar.gz
          zip -r "../openssl-libs-and-includes-${{ matrix.target }}.zip" ${{ matrix.target }}
 
       - name: Upload native libraries
