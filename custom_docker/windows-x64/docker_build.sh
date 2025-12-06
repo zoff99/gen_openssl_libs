@@ -40,8 +40,10 @@ fi
 cd /work/ && cp -av /opt/openssl/include/ . || exit 1
 
 # HINT: libcrypto-3-x64.dll and libssl-3-x64.dll are in the "bin/" directory (for some reason)
-ls -al /work/bin/*.a || exit 1
-ls -hal /work/bin/*.a || exit 1
+cd /work/ && cp -av /opt/openssl/bin/*dll* ./lib/ || exit 1
+
+ls -al /work/lib/*.dll || exit 1
+ls -hal /work/lib/*.dll || exit 1
 
 ls -al /work/lib/*.a || exit 1
 ls -hal /work/lib/*.a || exit 1
