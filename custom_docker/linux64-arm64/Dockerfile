@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM dockcross/linux-arm64:latest
 ARG DEBIAN_FRONTEND=noninteractive
 RUN export DEBIAN_FRONTEND=noninteractive && apt update && apt install -y make yasm wget git \
     coreutils autoconf libtool pkg-config nano

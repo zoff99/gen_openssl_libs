@@ -12,8 +12,15 @@ echo "ARCH: ""$ARCH"
 # clean work directory from any previous runs
 rm -Rf /work/*
 
-libdir="lib64"
-./Configure no-apps no-docs no-dso no-dgram --prefix=/opt/openssl --openssldir=/usr/local/ssl || exit 1
+libdir="lib"
+./Configure no-apps no-docs no-dso no-dgram linux-aarch64 --prefix=/opt/openssl --openssldir=/usr/local/ssl || exit 1
+
+# HINT: fix to find the C-compiler
+# for some reason its looking for:
+#     aarch64-unknown-linux-gnu-/usr/xcc/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc
+# (shrug)
+ln -s / aarch64-unknown-linux-gnu- || exit 1
+
 make -j $(nproc) || exit 1
 make install || exit 1
 

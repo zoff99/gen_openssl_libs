@@ -13,12 +13,17 @@ echo "ARCH: ""$ARCH"
 rm -Rf /work/*
 
 libdir="lib64"
-./Configure no-apps no-docs no-dso no-dgram --prefix=/opt/openssl --openssldir=/usr/local/ssl || exit 1
+
+./Configure mingw64 --cross-compile-prefix=x86_64-w64-mingw32- \
+    no-apps no-docs no-dso no-dgram --prefix=/opt/openssl --openssldir=/usr/local/ssl || exit 1
 make -j $(nproc) || exit 1
 make install || exit 1
 
 echo "/opt/openssl/include/"
 ls -al /opt/openssl/include/ || exit 1
+
+echo "/opt/openssl/bin/"
+ls -al /opt/openssl/bin/ || exit 1
 
 echo "/opt/openssl/""$libdir""/"
 ls -al /opt/openssl/"$libdir"/ || exit 1
@@ -33,6 +38,10 @@ if [ "$libdir""x" != "lib""x" ]; then
 fi
 
 cd /work/ && cp -av /opt/openssl/include/ . || exit 1
+
+# HINT: libcrypto-3-x64.dll and libssl-3-x64.dll are in the "bin/" directory (for some reason)
+ls -al /work/bin/*.a || exit 1
+ls -hal /work/bin/*.a || exit 1
 
 ls -al /work/lib/*.a || exit 1
 ls -hal /work/lib/*.a || exit 1
