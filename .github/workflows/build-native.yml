@@ -72,7 +72,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: openssl-libs-and-includes-${{ matrix.target }}
-          path: custom_docker/${{ matrix.target }}
+          path: "openssl-libs-and-includes-${{ matrix.target }}.zip"
 
       - name: Upload to nightly release
         uses: ncipollo/release-action@v1
