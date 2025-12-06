@@ -1,4 +1,4 @@
-## build openssl libs for Linux / Windows / macOS
+## build openssl libs (for Linux / Windows / macOS) on a Linux System
 
 ```bash
 # you need to have docker.io installed
