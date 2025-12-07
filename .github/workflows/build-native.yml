@@ -84,7 +84,6 @@ jobs:
           OCI_EXE: docker
 
       - name: test native libraries
-        run: make ${{ matrix.target }}
         env:
           OCI_EXE: docker
         run: |
