@@ -83,7 +83,9 @@ jobs:
       - name: fix ld-linux-aarch64.so.1 for arm64 binaries
         if: matrix.target == 'linux-arm64'
         run: |
-          sudo apt-get install -y --no-install-recommends libc6:arm64 || echo "NO ERR"
+          sudo dpkg --add-architecture arm64 || echo "NO ERR"
+          sudo apt-get update || echo "NO ERR"
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends libc6:arm64 || echo "NO ERR"
 
       - name: fix ld-linux-aarch64.so.1 for arm64 binaries
         if: matrix.target == 'linux-arm64'
