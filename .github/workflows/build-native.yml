@@ -83,6 +83,11 @@ jobs:
       - name: fix ld-linux-aarch64.so.1 for arm64 binaries
         if: matrix.target == 'linux-arm64'
         run: |
+          sudo apt-get install -y --no-install-recommends libc6:arm64 || echo "NO ERR"
+
+      - name: fix ld-linux-aarch64.so.1 for arm64 binaries
+        if: matrix.target == 'linux-arm64'
+        run: |
           sudo ls -al /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 || echo "NO ERR"
           sudo ls -al /lib/ld-linux-aarch64.so.1 || echo "NO ERR"
           # sudo ln -s /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 /lib/ld-linux-aarch64.so.1
