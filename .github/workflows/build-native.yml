@@ -52,7 +52,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: install deps for arm64 and windows binaries
-        if: matrix.target == 'linux-arm64' || matrix.target == 'windows-x64'
+        if: matrix.target == 'windows-x64'
         run: |
           # sudo dpkg --add-architecture arm64
           # libc6:arm64
@@ -65,6 +65,15 @@ jobs:
           qemu-utils binfmt-support libc6-arm64-cross libatomic1-arm64-cross \
           wine64 wine
 
+      - name: install deps for arm64
+        if: matrix.target == 'linux-arm64'
+        run: |
+          sudo apt-get update && \
+          sudo DEBIAN_FRONTEND=noninteractive \
+          apt-get install -y --no-install-recommends \
+          ca-certificates qemu-system-aarch64 qemu-user-static \
+          qemu-utils binfmt-support libc6-arm64-cross libatomic1-arm64-cross
+
       - name: enable emu for binaries for different architectures
         if: matrix.target == 'linux-arm64'
         run: |
@@ -76,7 +85,7 @@ jobs:
         run: |
           sudo ls -al /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 || echo "NO ERR"
           sudo ls -al /lib/ld-linux-aarch64.so.1 || echo "NO ERR"
-          sudo ln -s /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 /lib/ld-linux-aarch64.so.1
+          # sudo ln -s /usr/aarch64-linux-gnu/lib/ld-linux-aarch64.so.1 /lib/ld-linux-aarch64.so.1
 
       - name: check binfmt_misc for binaries for different architectures
         if: matrix.target == 'linux-arm64'
