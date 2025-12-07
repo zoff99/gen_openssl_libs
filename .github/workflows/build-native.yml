@@ -51,6 +51,29 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: install deps for arm64 and windows binaries
+        run: |
+          sudo dpkg --add-architecture arm64
+          sudo apt-get update && \
+          sudo DEBIAN_FRONTEND=noninteractive \
+          apt-get install -y --no-install-recommends \
+          libc6:arm64 \
+          qemu-user qemu-user-static gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
+          binutils-aarch64-linux-gnu-dbg build-essential \
+          ca-certificates qemu-system-aarch64 qemu-user-static \
+          qemu-utils binfmt-support libc6-arm64-cross libatomic1-arm64-cross \
+          wine64 wine
+
+      - name: enable emu for binaries for different architectures
+        run: |
+          sudo modprobe binfmt_misc || echo "NO ERR"
+          sudo update-binfmts --enable || echo "NO ERR"
+
+      - name: check binfmt_misc for binaries for different architectures
+        run: |
+          lsmod | grep binfmt_misc || echo "NO ERR"
+          ls -al /proc/sys/fs/binfmt_misc/ || echo "NO ERR"
+
       # Delete existing libs so we only upload the generated one into the artifact
       - name: Delete existing native libs
         run: rm -fr resources/native
@@ -59,6 +82,20 @@ jobs:
         run: make ${{ matrix.target }}
         env:
           OCI_EXE: docker
+
+      - name: test native libraries
+        run: make ${{ matrix.target }}
+        env:
+          OCI_EXE: docker
+        run: |
+         echo ${{ matrix.target }}
+         if [ "${{ matrix.target }}""x" == "mac64""x" ]; then
+            echo "no tests on: ""${{ matrix.target }}"
+         elif [ "${{ matrix.target }}""x" == "mac-arm64""x" ]; then
+            echo "no tests on: ""${{ matrix.target }}"
+         else
+            make ${{ matrix.target }}-test
+         fi
 
       - name: rename directory and create artifact zip file
         run: |

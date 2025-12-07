@@ -105,7 +105,7 @@ if (strcmp(name, "sm4-ecb") == 0) { keysize=32;cipher=  EVP_sm4_ecb();}
 
 size_t block = (size_t)EVP_CIPHER_block_size(cipher);
 size_t taglen=block;
-printf("Block size %d\n",block);
+printf("Block size %ld\n",(long)block);
 
     unsigned char *key = getKey(keysize);
 
@@ -121,7 +121,7 @@ printf("Block size %d\n",block);
     hexdump("\nKey: ",key,keysize);
 
     hexdump("\nTag: ",tag,taglen);
- 
+
 
 
     return EXIT_SUCCESS;

@@ -7,26 +7,39 @@ clean:
 	echo "clean"
 # HINT: would need "sudo" to clean, but thats way too dangerous. so we do NOT clean in this Makefile
 	### rm -Rf ./custom_docker/linux64/.build/
-	### rm -Rf ./custom_docker/linux64-arm64/.build/
+	### rm -Rf ./custom_docker/linux-arm64/.build/
+	### rm -Rf ./custom_docker/windows-x64/.build/
+	### rm -Rf ./custom_docker/mac64/.build/
+	### rm -Rf ./custom_docker/mac-arm64/.build/
 
 # For cross-compilation, install docker. See also https://github.com/dockcross/dockcross
 native-all: linux64 linux-arm64 windows-x64 mac64 mac-arm64
 
+test-all: linux64-test linux-arm64-test windows-x64-test
 
 ## ------ Linux
 linux64:
 	./custom_docker/linux64/do.sh build-container
 	./custom_docker/linux64/do.sh compile Linux x86_64
 
+linux64-test:
+	./custom_docker/linux64/do.sh test Linux x86_64
+
 ## ------ Linux arm64
 linux-arm64:
 	./custom_docker/linux-arm64/do.sh build-container
 	./custom_docker/linux-arm64/do.sh compile Linux aarch64
 
+linux-arm64-test:
+	./custom_docker/linux-arm64/do.sh test Linux aarch64
+
 ## ------ Windows x86_64
 windows-x64:
 	./custom_docker/windows-x64/do.sh build-container
 	./custom_docker/windows-x64/do.sh compile Windows x86_64
+
+windows-x64-test:
+	./custom_docker/windows-x64/do.sh test Windows x86_64
 
 ## ------ macOS x86_64
 mac64:
