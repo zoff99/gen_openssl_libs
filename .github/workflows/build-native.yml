@@ -42,7 +42,7 @@ jobs:
 
   build:
     name: lib
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     needs: [matrix]
     strategy:
       matrix: ${{fromJson(needs.matrix.outputs.matrix)}}
@@ -52,6 +52,7 @@ jobs:
       - uses: actions/checkout@v6
 
       - name: install deps for arm64 and windows binaries
+        if: matrix.target == 'linux-arm64' || matrix.target == 'windows-x64-test'
         run: |
           # sudo dpkg --add-architecture arm64
           # libc6:arm64
@@ -65,11 +66,13 @@ jobs:
           wine64 wine
 
       - name: enable emu for binaries for different architectures
+        if: matrix.target == 'linux-arm64' || matrix.target == 'windows-x64-test'
         run: |
           sudo modprobe binfmt_misc || echo "NO ERR"
           sudo update-binfmts --enable || echo "NO ERR"
 
       - name: check binfmt_misc for binaries for different architectures
+        if: matrix.target == 'linux-arm64' || matrix.target == 'windows-x64-test'
         run: |
           lsmod | grep binfmt_misc || echo "NO ERR"
           ls -al /proc/sys/fs/binfmt_misc/ || echo "NO ERR"
