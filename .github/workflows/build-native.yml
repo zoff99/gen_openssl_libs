@@ -54,10 +54,10 @@ jobs:
       - name: install deps for arm64 and windows binaries
         run: |
           # sudo dpkg --add-architecture arm64
+          # libc6:arm64
           sudo apt-get update && \
           sudo DEBIAN_FRONTEND=noninteractive \
           apt-get install -y --no-install-recommends \
-          libc6:arm64 \
           qemu-user qemu-user-static gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
           binutils-aarch64-linux-gnu-dbg build-essential \
           ca-certificates qemu-system-aarch64 qemu-user-static \
