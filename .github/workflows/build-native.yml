@@ -134,7 +134,7 @@ jobs:
          zip -r "../openssl-libs-and-includes-${{ matrix.target }}.zip" ${{ matrix.target }}
 
       - name: Upload native libraries to CI run
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: openssl-libs-and-includes-${{ matrix.target }}
           path: "openssl-libs-and-includes-${{ matrix.target }}.zip"
