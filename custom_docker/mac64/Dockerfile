@@ -1,6 +1,22 @@
-FROM multiarch/crossbuild
+FROM crazymax/osxcross:latest-ubuntu AS osxcross-source
+FROM ubuntu:24.04
 ARG DEBIAN_FRONTEND=noninteractive
-# HINT: this docker container is too old, sadly no more package updates
+
+# Install basic compiler dependencies needed by the toolchain
+RUN apt-get update && apt-get install -y \
+    clang \
+    llvm \
+    libxml2 \
+    patch \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the entire toolchain directly from the scratch image into your environment
+COPY --from=osxcross-source /osxcross /osxcross
+
+# Add the macOS compilers to your system PATH
+ENV PATH="/osxcross/bin:$PATH"
+
+
 RUN export DEBIAN_FRONTEND=noninteractive && apt update && apt install -y make yasm wget git \
     coreutils autoconf libtool pkg-config nano || echo "NO ERR"
 
