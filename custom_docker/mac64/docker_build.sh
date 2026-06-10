@@ -14,15 +14,12 @@ rm -Rf /work/*
 
 libdir="lib"
 
-# rm -fv /osxcross/bin/x86_64-apple-darwin25.1-ranlib
-# mv -v /osxcross/bin/arm64-apple-darwin25.1-ranlib /osxcross/bin/x86_64-apple-darwin25.1-ranlib
 
 CROSS_TRIPLE=x86_64-apple-darwin \
-    CC="/osxcross/bin/x86_64-apple-darwin25.1-clang" CROSS_PREFIX="/usr/osxcross/bin/x86_64-apple-darwin14-cc-" \
-    AR="/osxcross/bin/x86_64-apple-darwin25.1-ar" \
-    AS="/osxcross/bin/x86_64-apple-darwin25.1-as" \
-    LD="/osxcross/bin/x86_64-apple-darwin25.1-ld" \
-    RANLIB="/osxcross/bin/x86_64-apple-darwin25.1-ranlib" \
+    CC="/usr/osxcross/bin/x86_64-apple-darwin14-cc" CROSS_PREFIX="/usr/osxcross/bin/x86_64-apple-darwin14-cc-" \
+    AR="/usr/osxcross/bin/x86_64-apple-darwin14-ar" \
+    LD="/usr/osxcross/bin/x86_64-apple-darwin14-ld" \
+    RANLIB="/usr/osxcross/bin/x86_64-apple-darwin14-ranlib" \
     ./Configure no-apps no-docs no-dso no-dgram darwin64-x86_64 --prefix=/opt/openssl --openssldir=/usr/local/ssl || exit 1
 make -j $(nproc) || exit 1
 make install || exit 1
