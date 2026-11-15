@@ -60,9 +60,9 @@ jobs:
           sudo apt-get update && \
           sudo DEBIAN_FRONTEND=noninteractive \
           apt-get install -y --no-install-recommends \
-          qemu-user qemu-user-static gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
+          qemu-user qemu-user-binfmt gcc-aarch64-linux-gnu binutils-aarch64-linux-gnu \
           binutils-aarch64-linux-gnu-dbg build-essential \
-          ca-certificates qemu-system-aarch64 qemu-user-static \
+          ca-certificates qemu-system-arm \
           qemu-utils binfmt-support libc6-arm64-cross libatomic1-arm64-cross \
           wine64 wine
 
